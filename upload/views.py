@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import *
 from nlp.nlp import document_summary
 import PyPDF2
+import pandas as pd
 
 class Upload (APIView):
     @staticmethod
@@ -36,14 +37,10 @@ class Upload (APIView):
         
         return Response("Success")
 
-
-"""class Summary (APIView):
+class Faq(APIView):
     @staticmethod
-    def post(request):
-
-        pdfFileObj = open(file, 'rb') 
-        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-        print(pdfReader.numPages) 
-        pageObj = pdfReader.getPage(0) 
-        print(pageObj.extractText()) 
-        pdfFileObj.close() """
+    def get(self):
+        faq_csv=File.objects.filter(name='FAQ')[0]
+        faq=pd.read_csv("media/"+faq_csv.file.name)
+        print(faq.to_dict('df_dict'))
+        return Response(faq.to_dict('df_dict'))

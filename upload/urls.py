@@ -5,5 +5,5 @@ from django.conf import settings
 
 urlpatterns = [
     path("upload/", views.Upload().as_view(), name="upload_docs"),
-    
+    path('faq/', views.Faq().as_view(), name="faq"),
 ]
